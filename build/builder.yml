@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+
+  webserver:
+    build:
+      context: ../
+      dockerfile: ./build/webserver.dockerfile
+    image: ${WEBSERVER_IMAGE}
+
+  httputilproxy:
+    build:
+      context: ../
+      dockerfile: ./build/httputil.dockerfile
+    image: ${HTTPUTIL_PROXY_IMAGE}
+
+  customproxy:
+    build:
+      context: ../
+      dockerfile: ./build/customproxy.dockerfile
+    image: ${CUSTOM_PROXY_IMAGE}

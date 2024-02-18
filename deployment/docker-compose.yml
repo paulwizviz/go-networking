@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  webserver:
+    image: ${WEBSERVER_IMAGE}
+    container_name: webserver
+    ports:
+      - 8080:8080
+    networks:
+      - local
+
+  httputilproxy:
+    image: ${HTTPUTIL_PROXY_IMAGE}
+    container_name: httputilproxy
+    ports:
+      - 3030:3030
+    networks:
+      - local
+
+  customproxy:
+    image: ${CUSTOM_PROXY_IMAGE}
+    container_name: customproxy
+    ports:
+      - 3031:3031
+    networks:
+      - local
+
+networks:
+  local:
+    name: $NETWORK
