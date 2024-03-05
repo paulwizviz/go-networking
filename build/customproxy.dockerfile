@@ -7,9 +7,9 @@ COPY ./internal ./internal
 COPY ./go.mod ./go.mod
 COPY ./go.sum ./go.sum
 
-RUN go build -o /opt/build/customproxy /opt/cmd/customproxy
+RUN go build -o /opt/build/custom /opt/cmd/proxy/custom
 
 FROM alpine:3.18
 
-COPY --from=builder /opt/build/customproxy /usr/local/bin/customproxy
-CMD /usr/local/bin/customproxy
+COPY --from=builder /opt/build/custom /usr/local/bin/custom
+CMD /usr/local/bin/custom

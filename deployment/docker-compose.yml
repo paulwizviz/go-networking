@@ -5,6 +5,8 @@ services:
   webserver:
     image: ${WEBSERVER_IMAGE}
     container_name: webserver
+    environment:
+      - PORT=8080
     ports:
       - 8080:8080
     networks:

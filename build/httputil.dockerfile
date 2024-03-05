@@ -7,7 +7,7 @@ COPY ./internal ./internal
 COPY ./go.mod ./go.mod
 COPY ./go.sum ./go.sum
 
-RUN go build -o /opt/build/httputil /opt/cmd/httputil
+RUN go build -o /opt/build/httputil /opt/cmd/proxy/httputil
 
 FROM alpine:3.18
 

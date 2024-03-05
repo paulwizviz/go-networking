@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -15,7 +16,7 @@ import (
 var web embed.FS
 
 func webServer() {
-	port := "8080"
+	port := os.Getenv("PORT")
 	router := mux.NewRouter()
 	router.PathPrefix("/").Handler(http.FileServer(http.FS(web)))
 	log.Printf("Starting web %s", port)
