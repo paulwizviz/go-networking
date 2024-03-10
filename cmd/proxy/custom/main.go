@@ -39,7 +39,6 @@ func (p *proxyHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			rw.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprint(rw, err)
 		}
-
 		rw.WriteHeader(response.StatusCode)
 		io.Copy(rw, response.Body)
 	}

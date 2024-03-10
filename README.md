@@ -6,6 +6,7 @@ My brain dump covering topics related to networking implementation using Go.
 
 * [Proxies](./docs/proxy.md)
 * [SOAP](./docs/soap.md)
+* [Peer-to-peer](./docs/p2p.md)
 
 ## Useful References
 
