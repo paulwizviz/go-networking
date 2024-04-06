@@ -19,3 +19,12 @@ services:
       context: ../
       dockerfile: ./build/customproxy.dockerfile
     image: ${CUSTOM_PROXY_IMAGE}
+
+  p2p:
+    build:
+      context: ../
+      dockerfile: ./build/p2pnode.dockerfile
+      args:
+        OS_VER: 3.18
+        GO_VER: 1.22.0-alpine
+    image: ${P2P_NODE_IMAGE}

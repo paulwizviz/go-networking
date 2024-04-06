@@ -19,4 +19,4 @@ The following are examples of applications based on libp2p:
 
 The following are working examples using `go-libp2p`.
 
-* [Self addressing](../cmd/libp2p/selfaddr/main.go)
+* [Self addressing](../cmd/selfaddr/main.go)

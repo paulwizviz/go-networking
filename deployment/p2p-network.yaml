@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  p2pnode1:
+    image: ${P2P_NODE_IMAGE}
+    container_name: p2pnode1
+    ports:
+      - 2001:2002
+    networks:
+      - local
+
+networks:
+  local:
+    name: $NETWORK

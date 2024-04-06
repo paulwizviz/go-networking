@@ -1,24 +1,28 @@
 #!/bin/bash
 
-export WEBSERVER_IMAGE=go-networking/webserver:current
-export HTTPUTIL_PROXY_IMAGE=go-networking/httputilproxy:current
-export CUSTOM_PROXY_IMAGE=go-networking/customproxy:current
-export NETWORK=go-networking_network
+if [ "$(basename $(realpath .))" != "go-networking" ]; then
+    echo "You are outside of the project"
+    exit 0
+elif [ "$(basename $(realpath .))" == "scripts" ]; then
+   . ./image.sh
+   . ./network.sh
+else
+    . ./scripts/image.sh
+    . ./scripts/network.sh
+fi
 
 COMMAND="$1"
 SUBCOMMAND="$2"
+NETWORK_OPS="$3"
 
 function image(){
     local cmd="$1"
     case $cmd in
         "build")
-            docker-compose -f ./build/builder.yml build
+            build_image
             ;;
         "clean")
-            docker rmi -f ${WEBSERVER_IMAGE}
-            docker rmi -f ${HTTPUTIL_PROXY_IMAGE}
-            docker rmi -f ${CUSTOM_PROXY_IMAGE}
-            docker rmi -f $(docker images --filter "dangling=true" -q)
+            clean_image
             ;;
         *)
             echo "image [ build | clean]"
@@ -29,18 +33,20 @@ function image(){
 function network(){
     local cmd=$1
     case $cmd in
+        "proxy")
+            proxy_network $NETWORK_OPS
+            ;;
+        "p2p")
+            p2p_network $NETWORK_OPS
+            ;;
         "clean")
-            docker-compose -f ./deployment/docker-compose.yml down
-            rm -rf ./tmp
-            ;;
-        "start")
-            docker-compose -f ./deployment/docker-compose.yml up
-            ;;
-        "stop")
-            docker-compose -f ./deployment/docker-compose.yml down
+            clean_network
             ;;
         *)
-            echo "network [ clean | start | stop ]"
+            echo "Usage: $0 network [type]
+type:
+    proxy   network example
+"
             ;;
     esac
 }
