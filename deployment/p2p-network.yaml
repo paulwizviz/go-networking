@@ -2,14 +2,21 @@ version: '3.7'
 
 services:
 
-  p2pnode1:
-    image: ${P2P_NODE_IMAGE}
-    container_name: p2pnode1
+  p2pclient1:
+    image: ${P2P_CLIENT_IMAGE}
+    container_name: p2pclient1
+    command: -port=2002
     ports:
       - 2001:2002
+    volumes:
+      - vol:/opt
     networks:
       - local
 
 networks:
   local:
     name: $NETWORK
+
+volumes:
+  vol:
+    name: $P2P_VOLUME

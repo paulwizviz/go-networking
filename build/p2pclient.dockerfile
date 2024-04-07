@@ -9,10 +9,11 @@ COPY ./cmd ./cmd
 COPY ./go.mod ./go.mod
 COPY ./go.sum ./go.sum
 
-RUN go build -o /opt/build/p2p /opt/cmd/p2p
+RUN go build -o /opt/build/client /opt/cmd/p2p/client
 
 FROM alpine:${OS_VER}
 
-COPY --from=builder /opt/build/p2p /usr/local/bin/p2p
+COPY --from=builder /opt/build/client /usr/local/bin/client
 
-CMD /usr/local/bin/p2p
+ENTRYPOINT [ "/usr/local/bin/client" ]
+CMD "-port=2001"

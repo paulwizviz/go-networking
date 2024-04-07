@@ -4,11 +4,13 @@ if [ "$(basename $(realpath .))" != "go-networking" ]; then
     echo "You are outside of the project"
     exit 0
 elif [ "$(basename $(realpath .))" == "scripts" ]; then
-   . ./image.sh
-   . ./network.sh
+   . ./images.sh
+   . ./networks.sh
+   . ./volumes.sh
 else
-    . ./scripts/image.sh
-    . ./scripts/network.sh
+    . ./scripts/images.sh
+    . ./scripts/networks.sh
+    . ./scripts/volumes.sh
 fi
 
 COMMAND="$1"
@@ -41,11 +43,13 @@ function network(){
             ;;
         "clean")
             clean_network
+            remove_volume
             ;;
         *)
             echo "Usage: $0 network [type]
 type:
-    proxy   network example
+    proxy   network demonstrating proxy servers
+    p2p     network demonstrating peer-to-peer architecture
 "
             ;;
     esac

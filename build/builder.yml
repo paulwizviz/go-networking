@@ -23,8 +23,8 @@ services:
   p2p:
     build:
       context: ../
-      dockerfile: ./build/p2pnode.dockerfile
+      dockerfile: ./build/p2pclient.dockerfile
       args:
         OS_VER: 3.18
         GO_VER: 1.22.0-alpine
-    image: ${P2P_NODE_IMAGE}
+    image: ${P2P_CLIENT_IMAGE}
