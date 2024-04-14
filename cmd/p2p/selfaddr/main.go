@@ -20,8 +20,13 @@ func stdlib() {
 	}
 	for _, addr := range addrs {
 		ipNet, ok := addr.(*net.IPNet)
-		if ok && !ipNet.IP.IsLoopback() && ipNet.IP.To4() != nil {
-			fmt.Println("IP Address: ", ipNet.IP)
+		if ok {
+			if ipNet.IP.IsLoopback() {
+				fmt.Println("Loopback IP Address: ", ipNet.IP)
+			}
+			if ipNet.IP.To4() != nil {
+				fmt.Println("IP4 Address", ipNet.IP)
+			}
 		}
 	}
 }

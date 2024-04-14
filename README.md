@@ -4,10 +4,11 @@ My brain dump covering topics related to networking implementation using Go.
 
 ## Topics
 
+* [Network programming](./docs/programming.md)
 * [Peer-to-peer](./docs/p2p.md)
 * [Proxies](./docs/proxy.md)
 * [SOAP](./docs/soap.md)
 
-## Useful References
+## Networking Concepts
 
-* [GopherCon 2018: Filippo Valsorda- Asynchronous Networking Patterns](https://www.youtube.com/watch?v=afSiVelXDTQ)
+* [Software Networking and Interfaces on Linux: Part 1](https://www.youtube.com/watch?v=EnAZB8GI97c)

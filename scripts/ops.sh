@@ -3,14 +3,9 @@
 if [ "$(basename $(realpath .))" != "go-networking" ]; then
     echo "You are outside of the project"
     exit 0
-elif [ "$(basename $(realpath .))" == "scripts" ]; then
-   . ./images.sh
-   . ./networks.sh
-   . ./volumes.sh
 else
     . ./scripts/images.sh
     . ./scripts/networks.sh
-    . ./scripts/volumes.sh
 fi
 
 COMMAND="$1"
@@ -35,6 +30,9 @@ function image(){
 function network(){
     local cmd=$1
     case $cmd in
+        "playground")
+            playground
+            ;;
         "proxy")
             proxy_network $NETWORK_OPS
             ;;
@@ -43,13 +41,16 @@ function network(){
             ;;
         "clean")
             clean_network
-            remove_volume
+            remove_containers
+            remove_volumes
             ;;
         *)
             echo "Usage: $0 network [type]
 type:
-    proxy   network demonstrating proxy servers
-    p2p     network demonstrating peer-to-peer architecture
+    clean       network assets including volumes
+    playground  access ubuntu shell playground
+    proxy       network demonstrating proxy servers
+    p2p         network demonstrating peer-to-peer architecture
 "
             ;;
     esac
