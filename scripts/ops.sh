@@ -9,20 +9,54 @@ else
 fi
 
 COMMAND="$1"
-SUBCOMMAND="$2"
-NETWORK_OPS="$3"
+SUBCOMMAND1="$2"
+SUBCOMMAND2="$3"
 
 function image(){
     local cmd="$1"
     case $cmd in
+        "build:playground")
+            build_playground
+            ;;
+        "build:proxy")
+            build_proxy
+            ;;
+        "build:p2p")
+            build_p2p
+            ;;
+        "build:socket")
+            build_socket
+            ;;
         "build")
             build_image
+            ;;
+        "clean:playground")
+            clean_playground
+            ;;
+        "clean:proxy")
+            clean_proxy
+            ;;
+        "clean:p2p")
+            clean_p2p
+            ;;
+        "clean:socket")
+            clean_socket
             ;;
         "clean")
             clean_image
             ;;
         *)
-            echo "image [ build | clean]"
+            echo "image [command]
+            
+command:
+    build:playground   playground image
+    build:proxy        proxy image
+    build:p2p          p2p image
+    build              all images
+    clean:playground   playground image
+    clean:proxy        proxy image
+    clean:p2p          p2p image
+    clean              all images"
             ;;
     esac
 }
@@ -31,17 +65,20 @@ function network(){
     local cmd=$1
     case $cmd in
         "playground")
-            playground
+            ground_network
             ;;
         "proxy")
-            proxy_network $NETWORK_OPS
+            proxy_network $SUBCOMMAND2
             ;;
         "p2p")
-            p2p_network $NETWORK_OPS
+            p2p_network $SUBCOMMAND2
+            ;;
+        "socket")
+            socket_network $SUBCOMMAND2
             ;;
         "clean")
             clean_network
-            remove_containers
+            clean_containers
             remove_volumes
             ;;
         *)
@@ -50,18 +87,17 @@ type:
     clean       network assets including volumes
     playground  access ubuntu shell playground
     proxy       network demonstrating proxy servers
-    p2p         network demonstrating peer-to-peer architecture
-"
+    p2p         network demonstrating peer-to-peer architecture"
             ;;
     esac
 }
 
 case $COMMAND in
     "image")
-        image $SUBCOMMAND
+        image $SUBCOMMAND1
         ;;
     "network")
-        network $SUBCOMMAND
+        network $SUBCOMMAND1
         ;;
     *)
         echo "$0 <command>

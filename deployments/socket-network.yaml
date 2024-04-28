@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  server:
+    image: ${SOCKET_IMAGE}
+    container_name: server
+    working_dir: /opt
+    command: socket
+    volumes:
+      - vol:/var/app
+    networks:
+      - local
+
+  client:
+    image: ${SOCKET_IMAGE}
+    container_name: client
+    working_dir: /opt
+    command: socket --server=false
+    volumes:
+      - vol:/var/app
+    networks:
+      - local
+
+networks:
+  local:
+    name: $NETWORK
+
+volumes:
+  vol:
+    name: $SOCKET_VOLUME

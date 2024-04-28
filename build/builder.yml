@@ -34,6 +34,16 @@ services:
       context: ../
       dockerfile: ./build/playground.dockerfile
       args:
-        GO_VER: 1.22.1
-        OS_VER: 22.04
+        GO_VER: 1.22.0-alpine
+        OS_VER: 3.18
     image: ${PLAYGROUND_IMAGE}
+
+  socket:
+    build:
+      context: ../
+      dockerfile: ./build/socket.dockerfile
+      args:
+        GO_VER: 1.22.0-alpine
+        OS_VER: 3.18
+    image: ${SOCKET_IMAGE}
+    
