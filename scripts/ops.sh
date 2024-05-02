@@ -24,9 +24,6 @@ function image(){
         "build:p2p")
             build_p2p
             ;;
-        "build:socket")
-            build_socket
-            ;;
         "build")
             build_image
             ;;
@@ -38,9 +35,6 @@ function image(){
             ;;
         "clean:p2p")
             clean_p2p
-            ;;
-        "clean:socket")
-            clean_socket
             ;;
         "clean")
             clean_image
@@ -72,9 +66,6 @@ function network(){
             ;;
         "p2p")
             p2p_network $SUBCOMMAND2
-            ;;
-        "socket")
-            socket_network $SUBCOMMAND2
             ;;
         "clean")
             clean_network

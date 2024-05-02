@@ -38,12 +38,4 @@ services:
         OS_VER: 3.18
     image: ${PLAYGROUND_IMAGE}
 
-  socket:
-    build:
-      context: ../
-      dockerfile: ./build/socket.dockerfile
-      args:
-        GO_VER: 1.22.0-alpine
-        OS_VER: 3.18
-    image: ${SOCKET_IMAGE}
     
