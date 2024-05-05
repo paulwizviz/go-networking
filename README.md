@@ -8,6 +8,7 @@ My brain dump covering topics related to networking implementation using Go.
 * [Peer-to-peer](./docs/p2p.md)
 * [Proxies](./docs/proxy.md)
 * [SOAP](./docs/soap.md)
+* [Serialization](./docs/serialization.md)
 
 ## Networking Concepts
 
