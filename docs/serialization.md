@@ -8,7 +8,7 @@ Abstract Syntax Notation One (ASN.1) is a standard interface description languag
 
 ### Working examples
 
-* [Basic example](../internal/asnser/asn1_test.go)
+* [Basic example](../internal/serialize/asnser/asn1_test.go)
 
 ### References
 
@@ -23,7 +23,7 @@ In computer programming, Base64 is a group of binary-to-text encoding schemes th
 
 ### Working examples
 
-* [Basic example](../internal/base64ser/base64_test.go)
+* [Basic example](../internal/serialize/base64ser/base64_test.go)
 
 ### References
 
@@ -51,7 +51,7 @@ This is a Go-specific data package for communicating between two servers written
 
 ### Working examples
 
-* [Basic example](../internal/gobser/gob_test.go)
+* [Basic example](../internal/serialize/gobser/gob_test.go)
 
 ### References
 
@@ -64,7 +64,7 @@ TOML is a minimal configuration file format that's easy to read due to obvious s
 
 ### Working examples
 
-* [Basic example](../internal/tomlser/toml_test.go)
+* [Basic example](../internal/serialize/tomlser/test.toml)
 
 ### References
 
@@ -76,7 +76,7 @@ YAML (a recursive acronym for “YAML Ain’t Markup Language”) is a data seri
 
 ### Working examples
 
-* [Basic example](../internal/ymlser/yaml_test.go)
+* [Basic example](../internal/serialize/ymlser/yaml_test.go)
 
 ### References
 

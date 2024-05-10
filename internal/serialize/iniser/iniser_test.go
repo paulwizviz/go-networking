@@ -2,20 +2,14 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"path"
 
 	"gopkg.in/ini.v1"
 )
 
-func main() {
-	pwd, _ := os.Getwd()
-	testFileDir := path.Join(pwd, "example", "inifile")
-	testInputFile := path.Join(testFileDir, "test.ini")
-	cfg, err := ini.Load(testInputFile)
+func Example_ini() {
+	cfg, err := ini.Load("./test.ini")
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
-		os.Exit(1)
 	}
 
 	// Classic read of values, default section can be represented as empty string
@@ -34,7 +28,19 @@ func main() {
 	fmt.Printf("Enforce Domain: (%[1]T) %[1]v\n", cfg.Section("server").Key("enforce_domain").MustBool(false))
 
 	// Now, make some changes and save it
+	cfg.Section("").Key("app_mode").SetValue("development")
+	cfg.SaveTo("./test.ini")
+	fmt.Println("App Mode:", cfg.Section("").Key("app_mode").String())
+
 	cfg.Section("").Key("app_mode").SetValue("production")
-	testOutputFile := path.Join(testFileDir, "test.output.ini")
-	cfg.SaveTo(testOutputFile)
+	cfg.SaveTo("./test.ini")
+
+	// Output:
+	// App Mode: production
+	// Data Path: /home/git/grafana
+	// Server Protocol: http
+	// Email Protocol: smtp
+	// Port Number: (int) 9999
+	// Enforce Domain: (bool) true
+	// App Mode: development
 }
