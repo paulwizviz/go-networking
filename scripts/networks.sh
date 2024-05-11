@@ -13,7 +13,7 @@ function proxy_network(){
             docker-compose -f ./deployments/proxy-network.yaml down
             ;;
         *)
-            echo "Usage: $0 network proxy [command]
+            echo "Usage: $0 proxy [command]
 command:
     start    network
     stop     network
@@ -32,7 +32,7 @@ function p2p_network(){
             docker-compose -f ./deployments/p2p-network.yaml down
             ;;
         *)
-            echo "Usage: $0 network p2p [command]
+            echo "Usage: $0 p2p [command]
 command:
     start    network
     stop     network

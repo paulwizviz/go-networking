@@ -2,20 +2,28 @@ version: '3.7'
 
 services:
 
-  p2pclient1:
-    image: ${P2P_CLIENT_IMAGE}
-    container_name: p2pclient1
+  p2pnode1:
+    image: ${P2P_NODE_IMAGE}
+    container_name: p2pnode1
     command: -port=2002
     ports:
       - 2001:2002
     volumes:
       - vol:/opt
     networks:
-      - local
-
+      net:
+        ipv4_address: 192.168.0.1
+  
 networks:
-  local:
+  net:
     name: $NETWORK
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/16
+          ip_range: 192.168.0.0/24
+          gateway: 192.168.0.254
 
 volumes:
   vol:
