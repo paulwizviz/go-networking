@@ -12,7 +12,20 @@ Throughout this project, we'll be using two techniques when discussing p2p devel
 The ability of a peer to identify its own IP address is a key element of a peer-to-peer system, since this there is no central entity to managed ip addresses.
 
 Please refer to this [working example](../cmd/ping/selfaddr/main.go) demonstrating self addressing using standard library and libp2p.
-   
+
+## Pinging Nodes
+
+In this example, we demonstrate operations where a running node receives a ping from another node from start state.
+
+The working example is here [./deployments/p2p-ex1.yaml](../deployments/p2p-ex1.yaml)
+
+To see the example in action, run the following commands:
+
+* `./scripts/p2p.sh image build` to create images
+* `./scripts/p2p.sh ex1 node1:start` to activate `node1`
+* Copy the address of node1 and update the `-laddr` flag value with one from `node1`
+* `./scripts/p2p.sh ex1 node2:start` to activate `node2`
+
 ## Useful References
 
 * Standard library

@@ -17,6 +17,7 @@ services:
   node2:
     image: ${P2P_NODE_IMAGE}
     container_name: node2
+    # get the listener address from node1 and change the value of -laddr flag
     command: -port=2002 -laddr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWDawPwZAEHk3An2bPJFkvzzCNVNRDvVH6yU6g58KRcd4X
     ports:
       - 2002:2002
