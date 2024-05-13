@@ -11,7 +11,9 @@ Throughout this project, we'll be using two techniques when discussing p2p devel
 
 The ability of a peer to identify its own IP address is a key element of a peer-to-peer system, since this there is no central entity to managed ip addresses.
 
-Please refer to this [working example](../cmd/ping/selfaddr/main.go) demonstrating self addressing using standard library and libp2p.
+Please refer to this [working example](../cmd/ping/selfaddr) demonstrating self addressing using standard library and libp2p.
+
+Use this together with the [playground container](../deployments/playground.yaml) 
 
 ## Pinging Nodes
 

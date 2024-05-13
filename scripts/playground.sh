@@ -10,8 +10,7 @@ fi
 COMMAND=$1
 SUBCOMMAND=$2
 
-export NETWORK="go-networking_playground-network"
-export PLAYGROUND_VOLUME="go-network_playground-vol"
+export PLAYGROUND_NETWORK="go-networking_playground-net"
 export PLAYGROUND_CONTAINER="playground"
 
 function image(){

@@ -1,6 +1,3 @@
-// This example shows two approaches to obtaining interfaces IP address, using:
-// * standard library.
-// * go-libp2p.
 package main
 
 import (
@@ -10,10 +7,27 @@ import (
 	"github.com/libp2p/go-libp2p"
 )
 
-// stdlib demonstrate a technique to obtain network interface address.
-// NOTE: This does not spin up a running node.
+func libp2pEx() {
+	// Start a libp2p address
+	node, err := libp2p.New()
+	if err != nil {
+		fmt.Printf("New node error: %v", err)
+	}
+	defer node.Close()
+
+	// Print the node's listening addresses in multiaddr format.
+	// Examples:
+	// ip4/127.0.0.1/tcp/61218 <-- localhost
+	// ....
+	// Listen addresses: /ip4/192.168.1.73/tcp/61218 <-- ipv4 based
+	// .....
+	// Listen addresses: /ip6/::1/tcp/61221 <-- ipv6 based
+	for _, addr := range node.Addrs() {
+		fmt.Println("Listen addresses:", addr)
+	}
+}
+
 func stdlib() {
-	fmt.Println("--- Using standard library ---")
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		panic(err)
@@ -31,35 +45,9 @@ func stdlib() {
 	}
 }
 
-// golibp2p this example uses go-libp2p to obtain network interfaces
-// and starting a node.
-func golibp2p() {
-	fmt.Println("--- Using libp2p ---")
-
-	// Start a libp2p node with default settings
-	node, err := libp2p.New()
-	if err != nil {
-		panic(err)
-	}
-
-	// Print the node's listening addresses in multiaddr format.
-	// Examples:
-	// ip4/127.0.0.1/tcp/61218 <-- localhost
-	// ....
-	// Listen addresses: /ip4/192.168.1.73/tcp/61218 <-- ipv4 based
-	// .....
-	// Listen addresses: /ip6/::1/tcp/61221 <-- ipv6 based
-	for _, addr := range node.Addrs() {
-		fmt.Println("Listen addresses:", addr)
-	}
-
-	// shut the node down
-	if err := node.Close(); err != nil {
-		panic(err)
-	}
-}
-
 func main() {
+	fmt.Println("-- Libp2p --")
+	libp2pEx()
+	fmt.Println("-- Standard library --")
 	stdlib()
-	golibp2p()
 }

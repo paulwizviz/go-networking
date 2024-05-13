@@ -1,7 +1,7 @@
 ARG GO_VER
 ARG OS_VER
 
-FROM golang:${GO_VER}${OS_VER} AS builder
+FROM golang:${GO_VER}${OS_VER} as builder
 
 WORKDIR /opt
 
@@ -9,7 +9,8 @@ COPY ./cmd ./cmd
 COPY ./go.mod ./go.mod
 COPY ./go.sum ./go.sum
 
-RUN go build -o /opt/build/selfaddr /opt/cmd/p2p/selfaddr
+RUN go mod tidy && \
+    go build -o /opt/build/selfaddr /opt/cmd/p2p/selfaddr
 
 FROM alpine:${OS_VER}
 
