@@ -37,6 +37,7 @@ function clean_proxy(){
     docker rmi -f ${WEBSERVER_IMAGE}
     docker rmi -f ${HTTPUTIL_PROXY_IMAGE}
     docker rmi -f ${CUSTOM_PROXY_IMAGE}
+    docker rmi -f $(docker images --filter "dangling=true" -q)
 }
 
 
@@ -47,45 +48,45 @@ function clean_image(){
     docker rmi -f $(docker images --filter "dangling=true" -q)
 }
 
-function image(){
-    local cmd="$1"
-    case $cmd in
-        "build:playground")
-            build_playground
-            ;;
-        "build:proxy")
-            build_proxy
-            ;;
-        "build:p2pnode")
-            build_p2pnode
-            ;;
-        "build")
-            build_image
-            ;;
-        "clean:playground")
-            clean_playground
-            ;;
-        "clean:proxy")
-            clean_proxy
-            ;;
-        "clean:p2pnode")
-            clean_p2pnode
-            ;;
-        "clean")
-            clean_image
-            ;;
-        *)
-            echo "image [command]
+# function image(){
+#     local cmd="$1"
+#     case $cmd in
+#         "build:playground")
+#             build_playground
+#             ;;
+#         "build:proxy")
+#             build_proxy
+#             ;;
+#         "build:p2pnode")
+#             build_p2pnode
+#             ;;
+#         "build")
+#             build_image
+#             ;;
+#         "clean:playground")
+#             clean_playground
+#             ;;
+#         "clean:proxy")
+#             clean_proxy
+#             ;;
+#         "clean:p2pnode")
+#             clean_p2pnode
+#             ;;
+#         "clean")
+#             clean_image
+#             ;;
+#         *)
+#             echo "image [command]
             
-command:
-    build:playground   playground image
-    build:proxy        proxy image
-    build:p2pnode      p2p node image
-    build              all images
-    clean:playground   playground image
-    clean:proxy        proxy image
-    clean:p2pnode      p2p node image
-    clean              all images"
-            ;;
-    esac
-}
+# command:
+#     build:playground   playground image
+#     build:proxy        proxy image
+#     build:p2pnode      p2p node image
+#     build              all images
+#     clean:playground   playground image
+#     clean:proxy        proxy image
+#     clean:p2pnode      p2p node image
+#     clean              all images"
+#             ;;
+#     esac
+# }
