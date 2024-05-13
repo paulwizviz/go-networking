@@ -5,8 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/libp2p/go-libp2p"
@@ -21,8 +23,12 @@ func main() {
 	laddr := flag.String("laddr", "", "Listener address")
 	flag.Parse()
 
-	maddr := fmt.Sprintf("/ip4/192.168.0.1/tcp/%d", *port)
-	fmt.Println(maddr)
+	ad, err := net.InterfaceAddrs()
+	if err != nil {
+		panic(err)
+	}
+
+	maddr := fmt.Sprintf("/ip4/%s/tcp/%d", strings.Split(ad[1].String(), "/")[0], *port)
 
 	node, err := libp2p.New(
 		libp2p.ListenAddrStrings(maddr),
@@ -44,10 +50,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	for i, addr := range addrs {
-		fmt.Printf("%d: %v\n", i, addr)
-	}
+	fmt.Printf("Listerner address: %v\n", addrs[0])
 
 	if *laddr != "" {
 		addr, err := multiaddr.NewMultiaddr(*laddr)
@@ -61,7 +64,7 @@ func main() {
 
 		err = node.Connect(context.Background(), *peer)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Connect", err)
 		}
 		fmt.Println("Sending 5 ping to ", addr)
 		ch := ps.Ping(context.Background(), peer.ID)

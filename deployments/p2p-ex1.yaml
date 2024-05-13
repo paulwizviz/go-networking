@@ -2,9 +2,9 @@ version: '3.7'
 
 services:
 
-  p2pnode1:
+  node1:
     image: ${P2P_NODE_IMAGE}
-    container_name: p2pnode1
+    container_name: node1
     command: -port=2002
     ports:
       - 2001:2002
@@ -13,10 +13,22 @@ services:
     networks:
       net:
         ipv4_address: 192.168.0.1
+
+  node2:
+    image: ${P2P_NODE_IMAGE}
+    container_name: node2
+    command: -port=2002 -laddr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWDawPwZAEHk3An2bPJFkvzzCNVNRDvVH6yU6g58KRcd4X
+    ports:
+      - 2002:2002
+    volumes:
+      - vol:/opt
+    networks:
+      net:
+        ipv4_address: 192.168.0.2
   
 networks:
   net:
-    name: $NETWORK
+    name: ${P2P_NETWORK_EX1}
     driver: bridge
     ipam:
       driver: default
@@ -27,4 +39,4 @@ networks:
 
 volumes:
   vol:
-    name: $P2P_VOLUME
+    name: ${P2P_VOLUME_EX1}

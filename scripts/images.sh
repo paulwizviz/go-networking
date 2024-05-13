@@ -26,6 +26,7 @@ function build_image(){
 
 function clean_p2pnode(){
     docker rmi -f ${P2P_NODE_IMAGE}
+    docker rmi -f $(docker images --filter "dangling=true" -q)
 }
 
 function clean_playground(){
