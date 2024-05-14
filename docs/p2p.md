@@ -1,11 +1,9 @@
 # Peer-to-Peer
 
-Peer-to-peer (P2P) network refers to a collection of computing platforms -- i.e. peers -- where every peer consumes and supply resources from other peers.
-
-Throughout this project, we'll be using two techniques when discussing p2p development:
+In this section we'll demonstrate techniques to implement peer-to-peer networking architecture. We'll be using these components to help us build examples of p2p.
 
 * Standard library networking packages
-* Libp2p-go
+* [Libp2p-go](https://github.com/libp2p/go-libp2p)
 
 ## Self Addressing
 
@@ -28,7 +26,7 @@ To see the example in action, run the following commands:
 * Copy the address of node1 and update the `-laddr` flag value with one from `node1`
 * `./scripts/p2p.sh ex1 node2:start` to activate `node2`
 
-## Useful References
+## References
 
 * Standard library
     * [Get Local Network Address Using Golang — A Beginner’s Guide](https://systemweakness.com/get-local-network-address-using-golang-a-beginners-guide-7e4074287a03)
@@ -37,6 +35,4 @@ To see the example in action, run the following commands:
     * [Libp2p official documentation](https://docs.libp2p.io/guides/getting-started/go)
     * [libp2p-pubsub Peer Discovery with Kademlia DHT](https://medium.com/rahasak/libp2p-pubsub-peer-discovery-with-kademlia-dht-c8b131550ac7)
     * [Getting started with libp2p in Go](https://dev.to/feliperosa/getting-started-with-libp2p-in-go-4hoa)
-
-* Gossip Protocol
-    * [Parallel & Distributed Computing - Gossip Protocol](https://www.youtube.com/watch?v=qJpPjzg44R8)
+  
