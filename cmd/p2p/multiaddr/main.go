@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"net"
 
 	"github.com/libp2p/go-libp2p"
 )
 
-func libp2pEx() {
+func main() {
 	// Start a libp2p address
 	node, err := libp2p.New()
 	if err != nil {
@@ -25,29 +24,4 @@ func libp2pEx() {
 	for _, addr := range node.Addrs() {
 		fmt.Println("Listen addresses:", addr)
 	}
-}
-
-func stdlib() {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		panic(err)
-	}
-	for _, addr := range addrs {
-		ipNet, ok := addr.(*net.IPNet)
-		if ok {
-			if ipNet.IP.IsLoopback() {
-				fmt.Println("Loopback IP Address: ", ipNet.IP)
-			}
-			if ipNet.IP.To4() != nil {
-				fmt.Println("IP4 Address", ipNet.IP)
-			}
-		}
-	}
-}
-
-func main() {
-	fmt.Println("-- Libp2p --")
-	libp2pEx()
-	fmt.Println("-- Standard library --")
-	stdlib()
 }

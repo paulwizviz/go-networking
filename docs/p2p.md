@@ -1,17 +1,13 @@
 # Peer-to-Peer
 
-In this section we'll demonstrate techniques to implement peer-to-peer networking architecture. We'll be using these components to help us build examples of p2p.
+In this section we'll demonstrate techniques to implement peer-to-peer networking architecture based principally on this library [Libp2p-go](https://github.com/libp2p/go-libp2p).
 
-* Standard library networking packages
-* [Libp2p-go](https://github.com/libp2p/go-libp2p)
-
-## Self Addressing
+## Multi Addressing
 
 The ability of a peer to identify its own IP address is a key element of a peer-to-peer system, since this there is no central entity to managed ip addresses.
 
-Please refer to this [working example](../cmd/ping/selfaddr) demonstrating self addressing using standard library and libp2p.
-
-Use this together with the [playground container](../deployments/playground.yaml) 
+* [Source code](../cmd/p2p/multiaddr) demonstrating the concept of multiaddress format.
+* Use this [runtime](../deployments/playground.yaml) to play with this example 
 
 ## Pinging Nodes
 
