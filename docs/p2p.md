@@ -24,11 +24,7 @@ To see the example in action, run the following commands:
 
 ## References
 
-* Standard library
-    * [Get Local Network Address Using Golang — A Beginner’s Guide](https://systemweakness.com/get-local-network-address-using-golang-a-beginners-guide-7e4074287a03)
-
 * Libp2p 
-    * [Libp2p official documentation](https://docs.libp2p.io/guides/getting-started/go)
-    * [libp2p-pubsub Peer Discovery with Kademlia DHT](https://medium.com/rahasak/libp2p-pubsub-peer-discovery-with-kademlia-dht-c8b131550ac7)
+    * [Libp2p official Go documentation](https://docs.libp2p.io/guides/getting-started/go)
     * [Getting started with libp2p in Go](https://dev.to/feliperosa/getting-started-with-libp2p-in-go-4hoa)
   
