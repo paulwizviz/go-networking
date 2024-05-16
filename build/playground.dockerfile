@@ -11,7 +11,7 @@ COPY ./go.sum ./go.sum
 
 RUN go mod tidy && \
     go build -o /opt/build/selfaddr /opt/cmd/stdlib/selfaddr && \
-    go build -o /opt/build/p2p/multiaddr /opt/cmd/p2p/multiaddr
+    go build -o /opt/build/multiaddr /opt/cmd/p2p/multiaddr
 
 FROM alpine:${OS_VER}
 
