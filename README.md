@@ -1,6 +1,6 @@
 # Overview
 
-My brain dump covering topics related to networking implementation using Go.
+Welcome to my working examples demonstrating techniques to create networking programmes in Go
 
 ## Working Examples
 
@@ -9,6 +9,10 @@ My brain dump covering topics related to networking implementation using Go.
 * [Proxies](./docs/proxy.md)
 * [SOAP](./docs/soap.md)
 * [Serialization](./docs/serialization.md)
+
+## Playground
+
+You'll find an Alpine based "playground" container for you to run some working examples. Use the script `./scripts/playground.sh`.
 
 ## References
 
