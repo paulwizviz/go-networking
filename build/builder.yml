@@ -38,4 +38,12 @@ services:
         OS_VER: 3.18
     image: ${PLAYGROUND_IMAGE}
 
+  transport:
+    build:
+      context: ../
+      dockerfile: ./build/transport.dockerfile
+      args:
+        GO_VER: 1.22.0-alpine
+        OS_VER: 3.18
+    image: ${TRANSPORT_IMAGE}
     

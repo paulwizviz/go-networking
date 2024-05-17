@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+
+  listener:
+    image: ${TRANSPORT_IMAGE}
+    container_name: listener
+    command: transport -port=3030 -address="192.168.0.2" -proto="udp"
+    ports:
+      - 3030:3030
+    networks:
+      local:
+        ipv4_address: 192.168.0.2
+
+  client:
+    image: ${TRANSPORT_IMAGE}
+    container_name: client
+    networks:
+      local:
+        ipv4_address: 192.168.0.3
+    depends_on:
+      - listener
+
+networks:
+  local:
+    name: $TRANSPORT_NETWORK
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/16
+          ip_range: 192.168.0.0/24
+          gateway: 192.168.0.254

@@ -38,3 +38,14 @@ function clean_proxy(){
     docker rmi -f ${CUSTOM_PROXY_IMAGE}
     docker rmi -f $(docker images --filter "dangling=true" -q)
 }
+
+# Transport
+export TRANSPORT_IMAGE="go-networking/transport:current"
+function build_transport(){
+    docker-compose -f ./build/builder.yml build transport
+}
+
+function clean_transport(){
+    docker rmi -f ${TRANSPORT_IMAGE}
+    docker rmi -f $(docker images --filter "dangling=true" -q)
+}
