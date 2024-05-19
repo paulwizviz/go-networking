@@ -27,4 +27,3 @@ To see the example in action, run the following commands:
 * Libp2p 
     * [Libp2p official Go documentation](https://docs.libp2p.io/guides/getting-started/go)
     * [Getting started with libp2p in Go](https://dev.to/feliperosa/getting-started-with-libp2p-in-go-4hoa)
-  
