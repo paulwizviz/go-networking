@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+
+  node1:
+    image: ${P2P_NODE_IMAGE}
+    container_name: node1
+    command: discovery
+    volumes:
+      - vol:/opt
+    networks:
+      net:
+        ipv4_address: 192.168.0.1
+
+  node2:
+    image: ${P2P_NODE_IMAGE}
+    container_name: node2
+    command: discovery
+    volumes:
+      - vol:/opt
+    networks:
+      net:
+        ipv4_address: 192.168.0.2
+    depends_on:
+      - node1
+    
+
+networks:
+  net:
+    name: ${P2P_NET_EX2}
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/16
+          ip_range: 192.168.0.0/24
+          gateway: 192.168.0.254
+
+volumes:
+  vol:
+    name: ${P2P_VOL_EX2}

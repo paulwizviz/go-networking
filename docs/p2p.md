@@ -22,6 +22,14 @@ To see the example in action, run the following commands:
 * Copy the address of node1 and update the `-laddr` flag value with one from `node1`
 * `./scripts/p2p.sh ex1 node2:start` to activate `node2`
 
+## Discovery service using Multicast DNS
+
+This example uses multicast DNS (mdns) as a basis for service discovery. This will only work in local network.
+
+* [Node source code](../cmd/p2p/discovery/main.go)
+* [Deployment](../deployments/p2p-ex2.yaml)
+* `./scripts/p2p.sh ex2 [start|stop]` -- use this script to run the network
+
 ## References
 
 * Libp2p 

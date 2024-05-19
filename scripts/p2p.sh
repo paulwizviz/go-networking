@@ -25,6 +25,9 @@ function image(){
     esac
 }
 
+export P2P_NETWORK_EX1="go-networking_p2p-ex1-net"
+export P2P_VOLUME_EX1="go-networking_p2p-ex1-vol"
+
 function ex1(){
     local cmd=$1
     case $cmd in
@@ -62,12 +65,42 @@ command:
     esac
 }
 
+export P2P_NET_EX2="p2p-ex2-net"
+export P2P_VOL_EX2="p2p-ex2-vol"
+function ex2(){
+    local cmd=$1
+    case $cmd in
+        "start")
+            docker-compose -f ./deployments/p2p-ex2.yaml up
+            ;;
+        "stop")
+            docker-compose -f ./deployments/p2p-ex2.yaml down
+            ;;
+        "clean")
+            ex1 stop
+            docker network rm ${P2P_NET_EX2}
+            docker volume rm ${P2P_VOL_EX2}
+            ;;
+        *)
+            echo "Usage: $0 ex2 [command]
+            
+command:
+    clean  ex2 artefacts
+    start  ex2 network
+    stop   network"
+            ;;
+    esac
+}
+
 case $COMMAND in
-    "image")
+    "images")
         image $SUBCOMMAND1
         ;;
     "ex1")
         ex1 $SUBCOMMAND1
+        ;;
+    "ex2")
+        ex2 $SUBCOMMAND1
         ;;
     "clean")
         image clean
@@ -77,8 +110,9 @@ case $COMMAND in
         echo "Usage: $0 [command]
         
 command:
-    image  build or clean operations
+    images  build or clean operations
     ex1    operations for example 1
+    ex2    operations for example 2
     clean  project of artefacts"
         ;;
 esac
