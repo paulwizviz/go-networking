@@ -15,5 +15,3 @@ FROM alpine:${OS_VER}
 
 COPY --from=builder /opt/build/ping /usr/local/bin/ping
 
-ENTRYPOINT [ "/usr/local/bin/ping" ]
-CMD "-port=2001"

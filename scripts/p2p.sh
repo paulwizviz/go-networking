@@ -43,10 +43,16 @@ function ex1(){
         "stop")
             docker-compose -f ./deployments/p2p-ex1.yaml down
             ;;
+        "clean")
+            ex1 stop
+            docker network rm ${P2P_NETWORK_EX1}
+            docker volume rm ${P2P_VOLUME_EX1}
+            ;;
         *)
             echo "Usage: $0 ex1 [command]
             
 command:
+    clean          remove ex1 artefacts
     node1:start    activate node1
     node1:stop     deactivate node1
     node2:start    activate node2
@@ -63,10 +69,16 @@ case $COMMAND in
     "ex1")
         ex1 $SUBCOMMAND1
         ;;
+    "clean")
+        image clean
+        ex1 clean
+        ;;
     *)
         echo "Usage: $0 [command]
         
 command:
-    ex1   operations for example 1"
+    image  build or clean operations
+    ex1    operations for example 1
+    clean  project of artefacts"
         ;;
 esac
