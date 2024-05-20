@@ -77,7 +77,7 @@ function ex2(){
             docker-compose -f ./deployments/p2p-ex2.yaml down
             ;;
         "clean")
-            ex1 stop
+            ex2 stop
             docker network rm ${P2P_NET_EX2}
             docker volume rm ${P2P_VOL_EX2}
             ;;
@@ -92,6 +92,34 @@ command:
     esac
 }
 
+export P2P_NET_EX3="p2p-ex3-net"
+export P2P_VOL_EX3="p2p-ex3-vol"
+function ex3(){
+    local cmd=$1
+    case $cmd in
+        "start")
+            docker-compose -f ./deployments/p2p-ex3.yaml up
+            ;;
+        "stop")
+            docker-compose -f ./deployments/p2p-ex3.yaml down
+            ;;
+        "clean")
+            ex3 stop
+            docker network rm ${P2P_NET_EX3}
+            docker volume rm ${P2P_VOL_EX3}
+            ;;
+        *)
+            echo "Usage: $0 ex3 [command]
+            
+command:
+    clean  ex3 artefacts
+    start  ex3 network
+    stop   network"
+            ;;
+    esac
+}
+
+
 case $COMMAND in
     "images")
         image $SUBCOMMAND1
@@ -102,9 +130,14 @@ case $COMMAND in
     "ex2")
         ex2 $SUBCOMMAND1
         ;;
+    "ex3")
+        ex3 $SUBCOMMAND1
+        ;;
     "clean")
         image clean
         ex1 clean
+        ex2 clean
+        ex3 clean
         ;;
     *)
         echo "Usage: $0 [command]
