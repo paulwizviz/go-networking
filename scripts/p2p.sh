@@ -97,8 +97,11 @@ export P2P_VOL_EX3="p2p-ex3-vol"
 function ex3(){
     local cmd=$1
     case $cmd in
-        "start")
-            docker-compose -f ./deployments/p2p-ex3.yaml up
+        "boot:start")
+            docker-compose -f ./deployments/p2p-ex3.yaml up boot
+            ;;
+       "node:start")
+            docker-compose -f ./deployments/p2p-ex3.yaml up node1 node2
             ;;
         "stop")
             docker-compose -f ./deployments/p2p-ex3.yaml down
@@ -112,9 +115,10 @@ function ex3(){
             echo "Usage: $0 ex3 [command]
             
 command:
-    clean  ex3 artefacts
-    start  ex3 network
-    stop   network"
+    boot:start   boot node of ex3
+    clean        ex3 artefacts
+    node:start  nodes ex3 network
+    stop         network"
             ;;
     esac
 }
@@ -146,6 +150,7 @@ command:
     images  build or clean operations
     ex1    operations for example 1
     ex2    operations for example 2
+    ex3    operations for example 3
     clean  project of artefacts"
         ;;
 esac

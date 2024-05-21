@@ -2,28 +2,39 @@ version: '3.7'
 
 services:
 
-  node1:
+  boot:
     image: ${P2P_NODE_IMAGE}
-    container_name: node1
-    command: routing
+    container_name: boot
+    command: bootstrap
     volumes:
       - vol:/opt
     networks:
       net:
         ipv4_address: 192.168.0.1
 
-  node2:
+  node1:
     image: ${P2P_NODE_IMAGE}
-    container_name: node2
-    command: routing
+    container_name: node1
+    command: routing -boot-addr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWLsW7sZTUUkqUCpFfZrCnrxtyvnV4YG5PN6i2ruwNt68n
     volumes:
       - vol:/opt
     networks:
       net:
         ipv4_address: 192.168.0.2
     depends_on:
-      - node1
-    
+      - boot
+
+  node2:
+    image: ${P2P_NODE_IMAGE}
+    container_name: node2
+    command: routing -boot-addr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWLsW7sZTUUkqUCpFfZrCnrxtyvnV4YG5PN6i2ruwNt68n
+    volumes:
+      - vol:/opt
+    networks:
+      net:
+        ipv4_address: 192.168.0.3
+    depends_on:
+      - boot    
 
 networks:
   net:

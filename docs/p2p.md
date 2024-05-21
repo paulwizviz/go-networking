@@ -35,3 +35,4 @@ This example uses multicast DNS (mdns) as a basis for service discovery. This wi
 * Libp2p 
     * [Libp2p official Go documentation](https://docs.libp2p.io/guides/getting-started/go)
     * [Getting started with libp2p in Go](https://dev.to/feliperosa/getting-started-with-libp2p-in-go-4hoa)
+    * [Building an echo application with libp2p](https://ldej.nl/post/building-an-echo-application-with-libp2p/)
