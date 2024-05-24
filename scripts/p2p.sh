@@ -7,8 +7,8 @@ else
     . ./scripts/images.sh
 fi
 
-export P2P_NETWORK_EX1="go-networking_p2p-ex1-net"
-export P2P_VOLUME_EX1="go-networking_p2p-ex1-vol"
+export P2P_NETWORK_EX1="p2p-ex1-net"
+export P2P_VOLUME_EX1="p2p-ex1-vol"
 
 COMMAND=$1
 SUBCOMMAND1=$2
@@ -25,8 +25,8 @@ function image(){
     esac
 }
 
-export P2P_NETWORK_EX1="go-networking_p2p-ex1-net"
-export P2P_VOLUME_EX1="go-networking_p2p-ex1-vol"
+export P2P_NETWORK_EX1="p2p-ex1-net"
+export P2P_VOLUME_EX1="p2p-ex1-vol"
 
 function ex1(){
     local cmd=$1
@@ -97,11 +97,11 @@ export P2P_VOL_EX3="p2p-ex3-vol"
 function ex3(){
     local cmd=$1
     case $cmd in
-        "boot:start")
-            docker-compose -f ./deployments/p2p-ex3.yaml up boot
+       "node1:start")
+            docker-compose -f ./deployments/p2p-ex3.yaml up node1
             ;;
-       "node:start")
-            docker-compose -f ./deployments/p2p-ex3.yaml up node1 node2
+       "node2:start")
+            docker-compose -f ./deployments/p2p-ex3.yaml up node2
             ;;
         "stop")
             docker-compose -f ./deployments/p2p-ex3.yaml down
@@ -115,9 +115,9 @@ function ex3(){
             echo "Usage: $0 ex3 [command]
             
 command:
-    boot:start   boot node of ex3
     clean        ex3 artefacts
-    node:start  nodes ex3 network
+    node1:start  node1 ex3 network
+    node2:start  node1 ex3 network
     stop         network"
             ;;
     esac

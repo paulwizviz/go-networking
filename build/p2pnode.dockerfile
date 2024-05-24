@@ -18,6 +18,12 @@ RUN go build -o /opt/build/ping /opt/cmd/p2p/ping && \
 # End images
 FROM alpine:${OS_VER}
 
+# Add the sysctl settings to a new file
+RUN echo "net.core.rmem_max = 26214400" >> /etc/sysctl.conf && \
+    echo "net.core.rmem_default = 26214400" >> /etc/sysctl.conf && \
+    echo "net.core.wmem_max = 26214400" >> /etc/sysctl.conf && \
+    echo "net.core.wmem_default = 26214400" >> /etc/sysctl.conf
+
 COPY --from=builder /opt/build/ping /usr/local/bin/ping
 COPY --from=builder /opt/build/mdns /usr/local/bin/mdns
 COPY --from=builder /opt/build/bootstrap /usr/local/bin/bootstrap

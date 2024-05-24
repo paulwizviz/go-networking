@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -12,60 +11,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ipfs/go-cid"
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	"github.com/libp2p/go-libp2p/core/discovery"
-	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/libp2p/go-libp2p/p2p/discovery/routing"
-	"github.com/multiformats/go-multiaddr"
+	"github.com/libp2p/go-libp2p/p2p/discovery/util"
 )
 
-type RoutingTable struct {
-	h         host.Host
-	providers map[string]map[peer.ID]peer.AddrInfo
-}
-
-func (r *RoutingTable) Provide(ctx context.Context, cid cid.Cid, bcast bool) error {
-	pmap, ok := r.providers[cid.String()]
-	if !ok {
-		pmap = make(map[peer.ID]peer.AddrInfo)
-		r.providers[cid.String()] = pmap
-	}
-	pmap[r.h.ID()] = peer.AddrInfo{ID: r.h.ID(), Addrs: r.h.Addrs()}
-	return nil
-}
-
-func (r *RoutingTable) FindProvidersAsync(ctx context.Context, cid cid.Cid, limit int) <-chan peer.AddrInfo {
-	ch := make(chan peer.AddrInfo)
-	go func() {
-		defer close(ch)
-
-		pmap, ok := r.providers[cid.String()]
-		if !ok {
-			return
-		}
-
-		for _, pi := range pmap {
-			select {
-			case ch <- pi:
-			case <-ctx.Done():
-				return
-			}
-		}
-	}()
-	return ch
-}
-
 func main() {
-
-	bootAddr := flag.String("boot-addr", "", "bootstrap address")
-	flag.Parse()
-
-	if *bootAddr == "" {
-		log.Fatal("No boot strap address")
-	}
 
 	laddrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -85,24 +38,15 @@ func main() {
 	fmt.Println("Addresses:", host.Addrs())
 	fmt.Println("ID:", host.ID())
 
-	bootstrapAddr, err := multiaddr.NewMultiaddr(*bootAddr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	bootstrapPeer, err := peer.AddrInfoFromP2pAddr(bootstrapAddr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	ctx := context.Background()
 
-	if err := host.Connect(ctx, *bootstrapPeer); err != nil {
-		log.Printf("Failed to connect to bootstrap node: %v", err)
-	} else {
-		log.Printf("Connected to bootstrap node: %s", bootstrapPeer.ID.String())
+	bootstrapPeers := make([]peer.AddrInfo, len(dht.DefaultBootstrapPeers))
+	for i, addr := range dht.DefaultBootstrapPeers {
+		peerinfo, _ := peer.AddrInfoFromP2pAddr(addr)
+		bootstrapPeers[i] = *peerinfo
 	}
 
-	kDHT, err := dht.New(ctx, host, dht.Mode(dht.ModeAuto))
+	kDHT, err := dht.New(ctx, host, dht.BootstrapPeers(bootstrapPeers...))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -110,11 +54,12 @@ func main() {
 	// Set up routing discovery using the DHT
 	rd := routing.NewRoutingDiscovery(kDHT)
 
-	// Advertise our presence
-	_, err = rd.Advertise(ctx, "my-libp2p-app", discovery.TTL(1*time.Second))
-	if err != nil {
-		log.Fatal("Advertise Failed: ", err)
+	if err = kDHT.Bootstrap(ctx); err != nil {
+		log.Fatal(err)
 	}
+
+	// Advertise our presence
+	util.Advertise(ctx, rd, "my-libp2p-app")
 
 	// Discover peers periodically
 	go func() {
@@ -127,10 +72,10 @@ func main() {
 				continue
 			}
 
-			fmt.Println("Discovered peers:")
+			fmt.Printf("Host Address: %v ID: %v\n", host.Addrs(), host.ID())
 			for p := range peers {
-				if p.ID != host.ID() {
-					fmt.Println(p.ID.String())
+				if len(p.Addrs) != 0 {
+					fmt.Printf("Peer Address: %v ID: %v\n", p.Addrs, p.ID.String())
 				}
 			}
 		}

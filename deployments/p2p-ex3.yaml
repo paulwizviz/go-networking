@@ -2,39 +2,26 @@ version: '3.7'
 
 services:
 
-  boot:
-    image: ${P2P_NODE_IMAGE}
-    container_name: boot
-    command: bootstrap
-    volumes:
-      - vol:/opt
-    networks:
-      net:
-        ipv4_address: 192.168.0.1
-
   node1:
     image: ${P2P_NODE_IMAGE}
     container_name: node1
-    command: routing -boot-addr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWLsW7sZTUUkqUCpFfZrCnrxtyvnV4YG5PN6i2ruwNt68n
-    volumes:
-      - vol:/opt
+    # sysctls:
+    #   net.core.rmem_max: 26214400
+    #   net.core.wmem_max: 26214400
+    #   net.core.rmem_default: 26214400
+    #   net.core.wmem_default: 26214400
+    command: sh -c "sysctl -p /etc/sysctl.conf && routing"
     networks:
       net:
-        ipv4_address: 192.168.0.2
-    depends_on:
-      - boot
+        ipv4_address: 192.168.0.4
 
   node2:
     image: ${P2P_NODE_IMAGE}
     container_name: node2
-    command: routing -boot-addr=/ip4/192.168.0.1/tcp/2002/p2p/12D3KooWLsW7sZTUUkqUCpFfZrCnrxtyvnV4YG5PN6i2ruwNt68n
-    volumes:
-      - vol:/opt
+    command: sh -c "sysctl -p /etc/sysctl.conf && routing"
     networks:
       net:
-        ipv4_address: 192.168.0.3
-    depends_on:
-      - boot    
+        ipv4_address: 192.168.0.5  
 
 networks:
   net:
@@ -47,6 +34,3 @@ networks:
           ip_range: 192.168.0.0/24
           gateway: 192.168.0.254
 
-volumes:
-  vol:
-    name: ${P2P_VOL_EX3}
