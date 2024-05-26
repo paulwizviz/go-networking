@@ -30,6 +30,14 @@ This example uses multicast DNS (mdns) as a basis for service discovery. This wi
 * [Deployment](../deployments/p2p-ex2.yaml)
 * `./scripts/p2p.sh ex2 [start|stop]` -- use this script to run the network
 
+## Discovery service using KHDT
+
+This example uses is a replication of the official example [https://github.com/libp2p/go-libp2p/blob/master/examples/chat-with-rendezvous](https://github.com/libp2p/go-libp2p/blob/master/examples/chat-with-rendezvous). The example here is use docker.
+
+* [Node source code](../cmd/p2p/routing/main.go)
+* [Deployment](../deployments/p2p-ex3.yaml)
+* `scripts/p2p/sh ex3 [node1:start | node2:start]`
+
 ## References
 
 * Libp2p 

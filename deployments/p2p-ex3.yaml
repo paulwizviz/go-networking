@@ -10,7 +10,7 @@ services:
     #   net.core.wmem_max: 26214400
     #   net.core.rmem_default: 26214400
     #   net.core.wmem_default: 26214400
-    command: sh -c "sysctl -p /etc/sysctl.conf && routing"
+    command: sh -c "sysctl -p /etc/sysctl.conf && routing -boot-addr=/ip4/192.168.0.2/tcp/2002/p2p/12D3KooWRTr7YuSZPzDCkG4oywVD2M5YxmgHud6X2MUiFYkDnsbQ"
     networks:
       net:
         ipv4_address: 192.168.0.4
@@ -18,7 +18,12 @@ services:
   node2:
     image: ${P2P_NODE_IMAGE}
     container_name: node2
-    command: sh -c "sysctl -p /etc/sysctl.conf && routing"
+    # sysctls:
+    #   net.core.rmem_max: 26214400
+    #   net.core.wmem_max: 26214400
+    #   net.core.rmem_default: 26214400
+    #   net.core.wmem_default: 26214400
+    command: sh -c "sysctl -p /etc/sysctl.conf && routing -boot-addr=/ip4/192.168.0.2/tcp/2002/p2p/12D3KooWRTr7YuSZPzDCkG4oywVD2M5YxmgHud6X2MUiFYkDnsbQ"
     networks:
       net:
         ipv4_address: 192.168.0.5  

@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"os/signal"
@@ -11,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/ipfs/go-log/v2"
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/libp2p/go-libp2p/core/peer"
@@ -18,25 +18,30 @@ import (
 	"github.com/libp2p/go-libp2p/p2p/discovery/util"
 )
 
+var logger = log.Logger("my-libp2p-app")
+
 func main() {
+	log.SetAllLoggers(log.LevelWarn)
+	log.SetLogLevel("my-libp2p-app", "info")
 
 	laddrs, err := net.InterfaceAddrs()
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
+	logger.Info(laddrs)
 	ipaddr := strings.Split(laddrs[1].String(), "/")
 
 	host, err := libp2p.New(
-		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/%s/tcp/2002", ipaddr[0])),
+		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/%s/tcp/2020", ipaddr[0])),
 	)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 	defer host.Close()
 
 	// Print this node's addresses and ID
-	fmt.Println("Addresses:", host.Addrs())
-	fmt.Println("ID:", host.ID())
+	logger.Info("Addresses:", host.Addrs())
+	logger.Info("ID:", host.ID())
 
 	ctx := context.Background()
 
@@ -45,41 +50,40 @@ func main() {
 		peerinfo, _ := peer.AddrInfoFromP2pAddr(addr)
 		bootstrapPeers[i] = *peerinfo
 	}
-
 	kDHT, err := dht.New(ctx, host, dht.BootstrapPeers(bootstrapPeers...))
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
+
+	// Boot strapping the DHT
+	logger.Debug("Bootstrapping the DHT")
+	err = kDHT.Bootstrap(ctx)
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	// Paused to ensure bootstrap start
+	time.Sleep(1 * time.Second)
 
 	// Set up routing discovery using the DHT
+	logger.Info("Announcing ourselves")
 	rd := routing.NewRoutingDiscovery(kDHT)
+	// Advertise our presence
+	util.Advertise(ctx, rd, "my libp2p app")
+	logger.Info("We have Announced")
 
-	if err = kDHT.Bootstrap(ctx); err != nil {
-		log.Fatal(err)
+	logger.Debug("Searching for other peers...")
+	peers, err := rd.FindPeers(ctx, "my libp2p app")
+	if err != nil {
+		logger.Fatal(err)
 	}
 
-	// Advertise our presence
-	util.Advertise(ctx, rd, "my-libp2p-app")
-
-	// Discover peers periodically
-	go func() {
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
-		for range ticker.C {
-			peers, err := rd.FindPeers(ctx, "my-libp2p-app")
-			if err != nil {
-				log.Printf("Failed to find peers: %v", err)
-				continue
-			}
-
-			fmt.Printf("Host Address: %v ID: %v\n", host.Addrs(), host.ID())
-			for p := range peers {
-				if len(p.Addrs) != 0 {
-					fmt.Printf("Peer Address: %v ID: %v\n", p.Addrs, p.ID.String())
-				}
-			}
+	for p := range peers {
+		if p.ID == host.ID() {
+			continue
 		}
-	}()
+		logger.Debug("Found peer:", p)
+	}
 
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)

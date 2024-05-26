@@ -18,6 +18,8 @@ RUN go build -o /opt/build/ping /opt/cmd/p2p/ping && \
 # End images
 FROM alpine:${OS_VER}
 
+RUN apk update && apk add --no-cache bash
+
 # Add the sysctl settings to a new file
 RUN echo "net.core.rmem_max = 26214400" >> /etc/sysctl.conf && \
     echo "net.core.rmem_default = 26214400" >> /etc/sysctl.conf && \
